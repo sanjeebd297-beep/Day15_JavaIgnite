@@ -79,3 +79,69 @@ Possible Output
 
     Thread3 Booking Failed
 */
+package JavaIgniteDay15;
+
+	class Theater
+	{
+
+	    int totalSeats = 5;
+
+	    public synchronized void bookSeat(int seats)
+	    {
+
+	        if (totalSeats >= seats)
+	        {
+
+	            System.out.println(Thread.currentThread().getName()+ " Booking Successful");
+
+	            totalSeats = totalSeats - seats;
+
+	            System.out.println("Remaining Seats = " + totalSeats);
+
+	        } 
+	        else 
+	        {
+
+	            System.out.println(Thread.currentThread().getName()+ " Booking Failed");
+	        }
+	    }
+	}
+
+	class BookingThread extends Thread
+	{
+
+	    Theater theater;
+	    int seatsRequired;
+
+	    BookingThread(Theater theater, int seatsRequired)
+	    {
+	        this.theater = theater;
+	        this.seatsRequired = seatsRequired;
+	    }
+
+	    public void run() 
+	    {
+	        theater.bookSeat(seatsRequired);
+	    }
+	}
+
+public class Ticket_Booking
+{
+	 public static void main(String[] args) {
+	    	// TODO Auto-generated method stub
+	    	
+	        Theater theater = new Theater();
+
+	        BookingThread t1 = new BookingThread(theater, 2);
+	        BookingThread t2 = new BookingThread(theater, 2);
+	        BookingThread t3 = new BookingThread(theater, 2);
+
+	        t1.setName("Sanjeeb");
+	        t2.setName("Asmit");
+	        t3.setName("Satya");
+
+	        t1.start();
+	        t2.start();
+	        t3.start();
+	    }
+}
